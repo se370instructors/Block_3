@@ -5,6 +5,7 @@
 library(tidyr)
 library(readr)
 library(jsonlite)
+library(readxl)
 
 #--reading data
 
@@ -36,7 +37,7 @@ push_up <- c(78,NA,100,100,98)
 run <- c(98,100,84,100,78)
 sit_up <- c(88,64,70,100,96)
 
-
+df <- data.frame(name, push_up, run, sit_up, stringsAsFactors = FALSE)
 
 # Gather this data so that it only has 3 columns -- one for name,
 # one for event, and one for score.
