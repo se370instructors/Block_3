@@ -1,0 +1,179 @@
+---
+title: "AY23-2 SE370: Lesson 25 - Working Lab"
+author: "Edited by LTC Beskow"
+date: "21 March 2023"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(readr)
+library(forcats)
+library(plotly)
+```
+
+## Exploratory Data Analysis
+
+What is EDA?
+
+-   *The process of transforming and visualizing data in order to better understand the data set, understand the relationships between variables, and to help generate hypotheses to investigate further*
+
+Below we will walk through some basic steps of EDA data about colleges across the United States.  
+
+## First, let's read in the data
+
+```{r }
+# Code provided
+df <- read_csv("merged_data_16-17.csv", na = c("", "NA", "NULL", "PrivacySuppressed"))
+
+head(df)
+
+```
+
+#### Answer these questions about your data:
+
+1.  What does each row represent?
+
+    ANS: 
+
+2.  How many rows do you have?
+
+    ANS: 
+
+3.  Create a pairs plot to understand the relationships between variables in the data for columns 6:12
+
+```{r}
+# Your code here: 
+
+```
+
+#### Clean your data:
+
+1. Calculate how many `NA`'s are in your data by column:
+
+```{r}
+# Your code here:
+
+```
+
+
+2.  Try to use the `dplyr::glimpse` command to take a look at your data:
+
+```{r}
+# Your code here:
+
+```
+
+3.  Recode the `HIGHDEG` column so that '4' = 'bachelors', '3' = 'associates', '2' and '1' = 'vocational', '0' = 'non-degree'. *Hints: use mutate and recode together; `HIGHDEG` must start as a character for recode to work.*
+
+    ```{r}
+# Code provided for you
+    df <- df %>%
+      mutate(HIGHDEG = as.character(HIGHDEG)) %>%
+      mutate(HIGHDEG = recode(HIGHDEG, "4" = "bachelors", "3" = "associates", "2" = "vocational", "1" = "vocational", "0" = "non-degree"))
+
+    ```
+
+#### Answer the following questions:
+
+1.  What is the distribution of schools across the states?  Answer numerically and graphically.  
+
+Numerically:
+    ```{r}
+      # Place your code here:
+
+    ```
+
+Graphically: 
+    ```{r, fig.height = 8}
+    # Place your code here:
+
+    ```
+
+2.  What is the distribution of admission rates?  Answer numerically and graphically. 
+
+    Numerically:
+
+    ```{r}
+      # Place your code here:
+
+    ```
+
+    Graphically:
+    ```{r}
+      # Place your code here:
+
+    ```    
+
+3.  What is the distribution of SAT Score Average?  Answer only graphically.
+
+    ```{r}
+      # Place your code here:
+
+    ```
+
+4.  Is there a relationship between `SAT_AVG` and Admissions Rate? Answer with a plot.  Recommend `plotly` so you can interact with the chart.  
+
+    ```{r}
+# Your code here
+
+    ```
+
+..and in `plotly`.  Where do you expect Harvard, MIT, Princeton to be?
+
+    ```{r, message = FALSE, warning = FALSE}
+    # Your code here
+
+    ```
+
+5. What schools have the highest percentage of veterans?
+
+```{r}
+# Your code here
+```
+
+#### Problem Solving Questions
+
+1.  Is there a relationship between faculty salary (AVGFACSAL) and SAT Average (SAT_AVG_ALL)?
+
+    ```{r}
+# Your code here
+
+    ```
+
+    *There appears to be*
+
+2.  Create facet plots showing the distributions (densities) of SAT scores by degree type?
+
+    ```{r}
+# Your code here
+
+
+    ```
+
+3.  Are entry ages the same for all degree types? Show with a boxplot.
+
+    ```{r}
+    # Your code here
+
+    ```
+
+4.  Which Schools offer the best value if paying out of state tuition (TUITIONFEE_OUT)?
+
+    ```{r}
+    # code provided for you
+    ggplot(data = df, aes(x = SAT_AVG_ALL, y = TUITIONFEE_OUT)) + 
+      geom_rect(aes(xmin = 1200, xmax = 1500, ymin = 0, ymax = 30000), 
+                color = 'red', fill = 'lightgrey',alpha = 0.2) + 
+      geom_point() + 
+      geom_smooth() + 
+      
+      theme_classic()
+    ```
+
+
